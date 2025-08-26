@@ -136,7 +136,9 @@ What is the heap? It's a place where data is stored *outside* of the stack frame
 
 Items that are stored on the heap have an **address** within the program itself. So we are not storing the actual data on the stack, just an address that points to the stack.
 
-**1D Arrays** can hold only *primitive* data types. At index `[1]` there is an `int` 9.
+**1D Arrays** can hold only *primitive* data types. 
+
+At index `[1]` there is `int` 9.
 
 ![Arrays Example](TechDoc_Images/ArraysExample.png)
 
@@ -147,3 +149,90 @@ They are essentially like a table that you may find in excel or any part of your
 ![String Array](TechDoc_Images/StringArray.png)
 
 As you can see, each spot in the array holds an **id** that points to a *different* spot on the heap which holds even more information.
+
+### Classes and Objects ###
+
+So an object is an *instance* of a class. Meaning, that we may have a "dog" class, but then we have an object that is named Clifford the Big Red Dog. 
+
+A class gives a **baseline** in which all objects created using it share similar attributes. It's often referred to as a blueprint.
+
+Each dog can have individual characteristics, but they all have a breed, color, age, etc.
+
+```java
+Dog Clifford = new Dog(Vizlas, Red, 11);
+Dog Spot = new Dog(Dalmation, White, 2);
+```
+
+![Class vs Object](TechDoc_Images/ClassVSObjectDiagram.png)
+
+**<ins>Vocabulary</ins>**
+
+| Word | Meaning |
+| -----| --------|
+| Class | Used to construct an object |
+| Object | Represents a **thing** |
+| Instance | An object of a particular class |
+| Instantiation | Creating a new object |
+
+**Encapsulation**
+
+This allows the *least* amount of access needed in order for someone to utilize our class. Also by using encapsulation, we can have everything for an object all in one place.
+
+![Encapsulation](TechDoc_Images/Encapsulation%20Diagram.png)
+
+### Overloading ###
+
+Method overloading is essentially allowing two **different** methods to share the same name but have different **parameters**
+
+A solid example of this is constructors. 
+
+```java
+public Dog() {
+    sitting = false;
+    fetching = false;
+}
+
+public Dog(String dogName, String dogBreed, String dogColor) {
+    name = dogName;
+    breed = dogBreed;
+    color = dogColor;
+    sitting = false;
+    fetching = false;
+}
+```
+
+The first constructor will simply create space for a `Dog` object and put in "default" attributes. The second one allows the user to set their own attributes for the `Dog` object in addition to the defaults.
+
+### Inheritance ###
+
+Best practice in programming means using DRY(Do not repeat yourself) and SRP(Single responsible principle) techniques.
+
+Inheritance is the personification of this principle. You may have a group of classes that are all unique, but share some attributes. We would have to do an awful lot of repeating in order to make sure all of the classes have the right info.
+
+We can create a parent/super class that holds all of the **shared** information. Then create *child/sub classes* to get more into the specifics.
+
+![Inheritance Diagram](TechDoc_Images/Inheritance%20Diagram.png)
+
+### Overriding ###
+
+Method overriding is used when child classes may share the same attribute but execute it in different ways.
+
+![Overriding Diagram](TechDoc_Images/Method%20Overriding%20Diagram.png)
+
+In the above picure, each shape all has the ability to `draw` but obviously you don't want the square to draw a circle. So, in the child class we **override** the default parent method to suit the use-case that we need.
+
+### Memory ###
+
+Memory primarily functions in two different spaces. The **stack** and the **heap**
+
+The stack is our neat pile of plates that goes through phases called *pushing* and *popping*. The plates represent methods and all of the data that they store. Methods pop off the stack and into oblivian, so the information stored there is temporary and **cannot** be accessed after the method is done running.
+
+The heap, on the other hand, is our messy pile of shit. It's full of information but it's kind of a big mess that you can't find anything in. *<ins>Unless</ins>* you have an address. 
+
+You know how expo halls that host rodeos always have that smell of shit? 
+
+**The heap of shit persists**
+
+![Heap Data Example](TechDoc_Images/HeapData.png)
+
+This cutesy little `id=27` is directing you to a spot on the heap. Now we know exactly where we need to go to get the information contained in the variable `userContinue`
