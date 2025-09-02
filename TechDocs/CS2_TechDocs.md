@@ -9,7 +9,7 @@
     - [Conditional](#conditional)
     - [Switch](#switch)
     - [Loops](#loops)
-- [Arrays]
+- [Arrays](#arrays)
 
 ### Control Structures ###
 
