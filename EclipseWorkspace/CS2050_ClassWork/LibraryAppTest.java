@@ -171,6 +171,8 @@ class Library
 		if(!this.isEmpty())
 		{
 			System.out.print("\n\n");
+			System.out.println("Shelf\tSlot\tBook Details");
+			System.out.println("******************************");
 		
 			for(int shelfCount = 0; shelfCount < numberOfShelves; shelfCount++)
 			{
@@ -178,10 +180,17 @@ class Library
 					{
 						if (bookShelf[shelfCount][slotCount] != null)
 							{
-								System.out.println(bookShelf[shelfCount][slotCount].displayAllInfo());
+								// System.out.println(bookShelf[shelfCount][slotCount].displayAllInfo());
+								
+								System.out.printf("%d\t%d\t%s\n", 
+								shelfCount + 1, slotCount + 1, bookShelf[shelfCount][slotCount].displayAllInfo());
 							}
 					}
 			}
+			
+			System.out.printf("%d of %d slots filled", totalNumberBooks, numberOfShelves*shelfCapacity);
+			
+			System.out.print("\n");
 		}
 	}
 	
@@ -213,7 +222,7 @@ class Library
 				}
 			}
 		
-		System.out.printf("%s is the oldest book in %s.", 
+		System.out.printf("\n%s is the oldest book in %s.", 
 				(bookShelf[currentTopShelf][currentTopSlot].displayAllInfo()),
 				name);
 		}
