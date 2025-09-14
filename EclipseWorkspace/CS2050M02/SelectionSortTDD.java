@@ -37,7 +37,7 @@ public class SelectionSortTDD
 		if (array[i] <= currentMin) {
 			currentMin = array[i];
 			array[i] = currentMin;
-		}
+		}x 
 	}
 	}
 
