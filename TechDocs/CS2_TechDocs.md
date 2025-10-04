@@ -2,6 +2,7 @@
 
 **Table of Contents**
 - [Module 01](#module-01-programming-and-object-oriented-fundamentals)
+- [Module 02](#module-02-arrays-searching-sorting-and-algorithm-analysis)
 
 ## Module 01: Programming and Object-Oriented Fundamentals ##
 
@@ -10,6 +11,12 @@
     - [Switch](#switch)
     - [Loops](#loops)
 - [Arrays](#arrays)
+- [Classes and Objects](#classes-and-objects)
+- [Method Overloading](#overloading)
+- [Inheritance](#inheritance)
+- [Method Overriding](#overriding)
+- [Memory Allocation](#memory)
+- [Static vs Instance Methods](#static-vs-instance-methods)
 
 ### Control Structures ###
 
@@ -150,6 +157,24 @@ They are essentially like a table that you may find in excel or any part of your
 
 As you can see, each spot in the array holds an **id** that points to a *different* spot on the heap which holds even more information.
 
+Iterating through a 2D array often require a *nested for loop*
+
+```java
+public static void display2DArray(double current2DArray[][])
+{
+	for (int row = 0; row < current2DArray.length; row++)
+	{
+		for (int col = 0; col < current2DArray[row].length; col++)
+		{
+			System.out.printf("[%d][%d]: %.2f   ",row, col, current2DArray[row][col]);
+		}
+		System.out.println("");
+	}
+}
+```
+
+So you have the **outer** loop counting the rows and the **inner** loop counting the columns. We are utilizing the for loops execution of completing the **inner** loop completely *before* starting the next outer loop iteration.
+
 ### Classes and Objects ###
 
 So an object is an *instance* of a class. Meaning, that we may have a "dog" class, but then we have an object that is named Clifford the Big Red Dog. 
@@ -236,3 +261,154 @@ You know how expo halls that host rodeos always have that smell of shit?
 ![Heap Data Example](TechDoc_Images/HeapData.png)
 
 This cutesy little `id=27` is directing you to a spot on the heap. Now we know exactly where we need to go to get the information contained in the variable `userContinue`
+
+### Static vs Instance Methods ###
+
+There are two different types of methods that classes can hold. 
+
+There is *instance* methods that a unique object can execute.
+
+```java
+student1.getName()
+```
+
+They are pretty clearly identifiable because an object has to be **already** instantiated to use it and they use the `dot` operator.
+
+On the other hand, *static* variable do **not** need an instance of an object to execute. An excellent example of this is the `Math` class that Java has baked in.
+
+```java
+Math.sqrt()
+```
+
+```java
+Student.getTotalStudents()
+```
+
+Static methods are typically utility/helper functions, and do not operate directly off of data that an object holds.
+
+## Module 02: Arrays, Searching, Sorting and Algorithm Analysis ##
+
+### CS 1050 Array Processing Code ###
+
+Quick reference 1D array processing code from CS1050 (I guess you could probably tell that from the title huh...)
+
+#### Find largest element ####
+
+```java
+int largest = numbers[0];
+for (int i = 1; i < numbers.length; i++);
+    if (numbers[i] > largest)
+    {
+        largest = numbers[i];
+    }
+System.out.println("largest = " + largest);
+```
+
+#### Initialize with Input Values ####
+
+```java
+Scanner input = new Scanner(System.in);
+System.out.println("Enter " + numbers.length + " values: ");
+
+for (int = 0; i < numbers.length; i++)
+{
+    numbers[i] = input.nextInt();
+}
+```
+
+#### Display Array ####
+
+```java
+for (int i = 0; i < numbers.length; i++)
+{
+    System.out.println("numbers[" + i + "] = " + numbers[i]);
+}
+```
+
+#### Sum Elements ####
+
+```java
+int sum = 0;
+for (int i = 0; i < numbers.length; i++)
+{
+    sum += numbers[i];
+}
+System.out.println("sum = " + sum);
+```
+
+### Sorting 1D Arrays ###
+
+#### Selection sort ####
+
+Sorting algorithm in which each value, one at a time, is placed into its final sorted position in the list.
+
+Essentially, whatever `index[i]` you are on is compared individually to the rest of the list to see if it is less than your original `i`. If it is, it's flagged. This continues down the whole array and then whatever is the actual lowest gets swapped with the original `i`. The searchable space **decreases** with every pass.
+
+It’s like sorting a pile of rocks by size:
+- Each round, you scan the pile, find the **largest** rock, and put it in the sorted line.
+- Keep repeating until no rocks are left.
+
+(chatgpt)
+
+#### Bubble sort ####
+
+Sorting algorithm in which values are repeatedly compared to neighboring elements in the list and their positions are swapped if they are not in the correct order relative. 
+
+Bubble sort is super inefficient and will likely never be used unless a rare use case pops up.
+
+#### Insertion sort ####
+
+Sorting algorithm in which each value, one at a time, is inserted into a sorted subset of the entire list.
+
+At each index `i`, take that element (the key) and compare it backward through the already-sorted portion of the list (`0` to `i-1`). Shift larger elements to the right until you find the correct spot, then insert the key there. This repeats until the entire array is sorted. The searchable space **increases** with every pass.
+
+Think about how you might sort a hand of playing cards:
+- You pick up cards one by one.
+- For each new card, you look at the cards already in your hand (which are already sorted).
+- You place the new card in the correct spot among those sorted cards.
+
+By the time you’ve placed all the cards, your whole hand is sorted. (courtesy of chatgpt)
+
+### Searching 1D Arrays ###
+
+Ok, that was a lot of yapping about different ways to sort arrays. But, it's important to help understand *searching* arrays.
+
+Searching through something is a hell of a lot easier whenever everything is already in perfect order.
+
+#### Linear Search ####
+
+But first, a quick detour into a search method that does **not** require the array to be pre-sorted.
+
+In linear searches, the algorithm evaluates each individual slot, one at a time, *linearly* until it finds its' match. This is relatively inefficient because the amount of execution time grows with every slot added to an array.
+
+I thought this was a clever way to validate whether or not you should return the index you're at: When a match is found that index of the match is returned, otherwise a -1 is returned.
+
+This makes a lot of sense because an array's index can **never** be negative. So when a negative number is returned it indicates that what you are searching for is **not** present in the array.
+
+```java
+public static int linearSearch(int[] list, int key) {
+    for (int i = 0; i < list.length; i++) {
+      if (key == list[i])
+        return i;
+    }
+    return -1;
+  }
+```
+
+#### Binary Search ####
+
+Next up, we have binary search. I love this search method so much it just makes a lot of sense to me.
+
+An important thing to note: for this search algorithm to work the array **must** be presorted.
+
+The way that I like to visualize this is how the CS 1 class at Harvard University's online course explains it.
+
+Imagine you have a phone book and you are looking for John's phone number. You open to roughly the halfway mark and see where you are in the alphabet. We are on Mike. We know that John will be before Mike, or to the left, so we can immediately not search the right half and throw it away. We open to halfway again and we land on Ellen. Well, John is to the right of Ellen so we can throw out the left side. We keep doing this until eventually we reach John.
+
+Or in more code-y language:
+- If key is less than "middle" element, then only search for key in 1st half of array
+- If key is equal to "middle" element, return match!
+- If key is greater than "middle" element, then only search for key in 2nd half of array
+- If no match is found, return -1
+
+Luckily for us, the `Arrays` class that is baked into Java comes *with* a binary search method. You can call this at any time, even without first creating an object because it is a [static](#static-vs-instance-methods) method.
