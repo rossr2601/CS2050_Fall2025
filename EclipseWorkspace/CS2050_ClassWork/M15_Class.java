@@ -18,6 +18,8 @@ public class M15_Class {
 		System.out.print("Enter the year: ");
 		// read integer from keyboard for year
 		int year = input.nextInt();
+		
+		input.hasnextint
 	}
 
 }
