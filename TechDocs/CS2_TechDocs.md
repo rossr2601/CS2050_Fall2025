@@ -412,3 +412,207 @@ Or in more code-y language:
 - If no match is found, return -1
 
 Luckily for us, the `Arrays` class that is baked into Java comes *with* a binary search method. You can call this at any time, even without first creating an object because it is a [static](#static-vs-instance-methods) method.
+
+## Moduel 03: Abstract Classes, ArrayLists and Linear Data Structures ##
+
+### Interfaces ###
+
+When a class contains 100% abstract methods, we call it an interface
+
+It provides the form for a class but no method bodies
+
+It says: “This is what all classes that implement this particular interface will look like.”
+
+Coding to an interface, rather than an implementation, makes code easier to extend.
+
+```java
+//Interface defining behaviors for a Pet
+interface Pet 
+{
+    void beFriendly();
+    void play();
+}
+```
+
+Then inside of the child class that *implements* the framework we define the actual methods.
+
+```java
+//Concrete class Bulldog extending Canine and implementing Pet
+class Bulldog extends Canine implements Pet 
+{
+    @Override
+    public void beFriendly() 
+    {
+        System.out.println(getName() + " is wagging its tail happily!");
+    }
+    @Override
+    public void play() 
+    {
+        System.out.println(getName() + " is playing with a ball.");
+    }
+}
+```
+
+Interfaces can contain only: 
+- Constants
+- Abstract methods 
+- Default and static methods
+
+**IMPORTANT**
+
+Interface variables must be initialized at time of declaration
+
+| Feature       | Abstract Class                              | Interface                                                                               |
+| ------------- | ------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Purpose       | Provides a common base for related classes  | Specifies behavior that unrelated classes can share                                     |
+| Instantiation | Cannot be instantiated directly             | Cannot be instantiated directly                                                         |
+| Methods       | Can have both abstract and concrete methods | Can only have abstract methods (before Java 8) or also default/static methods (Java 8+) |
+| Fields        | Can have instance variables and constants   | Only public, static, and final constants                                                |
+| Inheritance   | Supports single inheritance                 | Allows multiple inheritance (via multiple interfaces)                                   |
+
+### Data Structures ###
+
+| Data Structure | Storage Type                  | Access Type                                                  |
+| -------------- | ----------------------------- | ------------------------------------------------------------ |
+| Array          | Static, contiguous memory     | Direct (get(i))                                              |
+| ArrayList      | Dynamic, contiguous memory    | Direct (get(i))                                              |
+| Linked List    | Dynamic, noncontiguous memory | Sequential (must traverse)                                   |
+| Stack          | Dynamic, noncontiguous memory | Sequential LIFO (Last In, First Out) (top element only)      |
+| Queue          | Dynamic, noncontiguous memory | Sequential FIFO (First In, First Out)(front/rear operations) |
+
+#### ArrayList ####
+
+Comparing Collections vs Arrays
+
+| Feature                          | Array                           | Collection (ArrayList, etc.)        |
+| -------------------------------- | ------------------------------- | ----------------------------------- |
+| Java Collections Framework (JCF) | Not part of JCF                 | Part of JCF                         |
+| Size                             | Fixed                           | Dynamic (resizable)                 |
+| Methods Available                | None (manual indexing required) | add(), remove(), contains(), etc.   |
+| Performance                      | Fast indexing (O(1))            | Slower (O(n)) for insertion/removal |
+| Flexibility                      | Cannot change size              | Can grow/shrink dynamically         |
+
+Use an **ArrayList** when:
+- The number of elements can change at runtime (grow or shrink).
+- You want built-in methods for adding, removing, searching.
+- Ex: keeping track of pets in an adoption center, books in a library, or cars in a vending machine.
+
+```java
+public class Demo 
+{
+    public static void main(String[] args) 
+    {
+        ArrayList<String> pets = new ArrayList<>();
+        pets.add("Dog");
+        pets.add("Cat");
+
+        System.out.println(pets.get(0));   // Dog
+        System.out.println("Size: " + pets.size()); // 2
+
+        pets.remove(1);  // removes "Cat"
+        System.out.println(pets); // Dog
+    }
+}
+```
+
+An ArrayList is implemented using an array that dynamically resizes itself when more elements are added.
+
+This can cause runtime issues though as each time you change the size of an ArrayList you are just creating a new array under the covers.
+
+<ins>ArrayList **thrive** in a random access scenario</ins>
+
+*Random Access: The ability to access any element instantly using an index, without having to traverse other elements. This is due to being stored in contiguous memory.*
+
+Below there are two different ways to utilize ArrayList
+- Both can be implemented using ArrayList, ensuring dynamic memory allocation.
+- Both can be implemented using an ArrayList, with generics for flexibility and exceptions for safety.
+
+##### Stack (LIFO) #####
+
+Stacks are stored in linear collection.
+
+This is exactly how methods push and pop during a programs runtime.
+
+##### Queue (FIFO) #####
+
+A queue is similar to a checkout line in a grocery store—the first person in line is serviced first, and other customers enter the line only at the end and wait to be serviced.
+
+Exactly what it sounds like, just a different structure and way to go through data.
+
+#### Singly Linked List ####
+
+A linked list is a sequence of data structures that are connected together, called nodes. This can also be called **self referential**
+
+Each node contains two parts:
+- Data – The actual value stored in the node.
+- Pointer (Reference) – A reference to the next node in the sequence.
+
+Memory is generally not contiguous unlike Arrays. You have to have the `next` reference variable in order to iterate through.
+
+It's efficient at inserting/deleting items at ehe beginning of the list.
+
+However, this comes at the trade off of not being able to go to a *particular* index easily.
+
+<ins>Linked Lists really struggle with random access and instead work with sequential access.</ins>
+
+*Sequential Access: Requires traversing elements one by one to reach the desired element.*
+
+You can define your `node` class within the linkedlist class because it's only functioning as a helper object.
+- Just helps with encapsulation and overall secure coding practices
+
+```java
+class SinglyLinkedList{
+	Node head;
+
+	private static class Node{
+		int data;
+		Node next;
+		public Node(int data){
+			this.data = data;
+			this.next = null;
+		}
+	}
+}
+```
+
+
+### Exception Handling ###
+
+#### Try Catch ####
+
+If offending code is not embedded in a try-catch block (not caught in current method)
+- Exception is passed to calling code  
+- If the caller did not embed the method call in a try-catch, the above step is repeated until 
+    - Exception is caught or
+    - Exception is passed to main
+- If reach main and if the call is not embedded in a try-catch block 
+    - Program halts (crashes)  
+    - Trace of the method calls, the exception type, and its error message is printed
+
+Basically, if you don't handle your exceptions your code will not run and throw up big red letters (at least in eclipse) saying "hey wtf??"
+
+`Try` encloses method that could throw exceptions and then `Catch` contains the code for how to handle that exception.
+
+Make sure to write informative messages for users and developers to understand what went wrong.
+
+You do **NOT** need try catch blocks in every piece of code that you ever write. In fact, most can be done with conscious coding. For example `if` statements could "catch" user input without you having to explicitly code for it.
+
+### Files and flies oh my ###
+
+```java
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class ReadFileExample {
+    public static void main(String[] args) throws IOException {
+        File file = new File("data.txt");
+        Scanner scanner = new Scanner(file);
+
+        while (scanner.hasNextLine()) {
+            System.out.println(scanner.nextLine());
+        }
+        scanner.close();
+    }
+}
+```
